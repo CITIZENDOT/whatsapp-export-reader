@@ -1,0 +1,49 @@
+---
+import '../styles/global.css'
+import ThemeToggle from '../components/ThemeToggle.tsx'
+
+interface Props {
+  title: string
+  description?: string
+}
+
+const { title, description = 'View your exported WhatsApp chats in a familiar interface.' } =
+  Astro.props
+
+const defaultTheme = 'dark'
+---
+
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <script is:inline define:vars={{ defaultTheme }}>
+    const theme = (() => {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme')
+      }
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark'
+      }
+      return defaultTheme
+    })()
+
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark')
+    } else {
+      document.documentElement.classList.add('dark')
+    }
+  </script>
+
+  <body class="bg-background text-foreground min-h-screen antialiased">
+    <div class="absolute top-4 right-4 z-50">
+      <ThemeToggle client:load />
+    </div>
+    <slot />
+  </body>
+</html>
