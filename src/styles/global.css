@@ -119,6 +119,13 @@
   }
 }
 
+@layer base {
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+}
+
 /* Add Markdown styling */
 .markdown {
   @apply text-sm;

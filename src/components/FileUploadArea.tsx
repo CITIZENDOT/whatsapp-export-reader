@@ -110,6 +110,24 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
     }
   }
 
+  const trySampleChat = (e: React.MouseEvent) => {
+    e.preventDefault()
+    switchToPasteMode(e)
+    setPastedText(
+      `05/15/24, 10:30 AM - Alex: Hey Sam! Are we still on for coffee this afternoon?
+05/15/24, 10:32 AM - Sam: Hey Alex! Yes, definitely. Around 2 PM at the usual spot? ☕
+05/15/24, 10:33 AM - Alex: Sounds perfect! See you then 👍
+05/15/24, 10:35 AM - Sam: Great! Btw, did you finish reviewing that document I sent yesterday?
+05/15/24, 10:45 AM - Alex: Almost done! Just making a few final notes. Should be finished before lunch. It's looking good overall.
+05/15/24, 10:46 AM - Sam: Awesome, no rush at all. Thanks! 😊
+05/15/24, 10:50 AM - Alex: Check this out later, thought you might find it interesting: https://example.com/article
+05/15/24, 10:51 AM - Sam: Oh cool, thanks! Will take a look.
+05/15/24, 10:55 AM - Alex: <Media omitted>
+05/15/24, 10:56 AM - Sam: Looks interesting! We can chat about it later.
+05/15/24, 1:45 PM - Sam: Heading out now. See you soon!`
+    )
+  }
+
   // --- Mode Switching Logic ---
   const switchToPasteMode = (e: React.MouseEvent) => {
     e.preventDefault() // Prevent potential navigation if used in an anchor
@@ -140,11 +158,11 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
   return (
     <Card className="mx-auto w-full max-w-lg">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Provide Your Chat Data</CardTitle>
+        <CardTitle className="text-2xl">{inputMode === 'upload' ? 'Upload' : 'Paste'} Your Chat Data</CardTitle>
         <CardDescription>
           {inputMode === 'upload' ? (
             <>
-              Select or drag your <code>_chat.txt</code> / <code>.zip</code> file, or{' '}
+              Select or drag your <code>.txt</code> / <code>.zip</code> file, or{' '}
               <Button
                 variant="link"
                 className="inline h-auto p-0 text-base"
@@ -153,16 +171,35 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
                 paste the text content
               </Button>
               .
+              You can also {' '}
+              <Button
+                variant="link"
+                className="inline h-auto p-0 text-base"
+                onClick={trySampleChat}
+              >
+                try a sample chat
+              </Button>
+              .
             </>
           ) : (
             <>
-              Paste from your <code>_chat.txt</code> below, or{' '}
+              Paste from your <code>.txt</code> below, or{' '}
               <Button
                 variant="link"
                 className="inline h-auto p-0 text-base"
                 onClick={switchToUploadMode}
               >
                 upload a file instead
+              </Button>
+              .
+
+              You can also {' '}
+              <Button
+                variant="link"
+                className="inline h-auto p-0 text-base"
+                onClick={trySampleChat}
+              >
+                try a sample chat
               </Button>
               .
             </>

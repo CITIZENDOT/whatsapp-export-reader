@@ -1,13 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import FileUploadArea from '../components/FileUploadArea.tsx'
-import { Github, Lock, UploadCloud, MessageSquare } from 'lucide-react'
+import { Github, Lock, UploadCloud, MessageSquare, SunMoon } from 'lucide-react'
 import ChatProcessor from '@/components/ChatProcessor'
 
-const attachmentNote = 'Attachment preview requires uploading the .zip export.'
+const attachmentNote =
+  'Attachment preview requires uploading the .zip export. .txt will show "<Media omitted>".'
 ---
 
-<Layout title="WhatsApp Chat Export Reader - View Your Chats Easily">
+<Layout
+  title="WhatsApp Chat Export Reader - View Your Chats Easily"
+  description="WhatsApp export reader: View exported .txt (or) .zip files instantly. Browse chats in the classic WhatsApp layout with dark mode & media support. Private & secure."
+>
   <main class="container mx-auto px-4 py-12 md:py-20">
     {/* Hero Section */}
     <section class="mb-16 text-center md:mb-24">
@@ -15,12 +18,12 @@ const attachmentNote = 'Attachment preview requires uploading the .zip export.'
         View Your Exported WhatsApp Chats, <br class="hidden md:inline" />
         <span class="text-primary">Just Like in the App</span>
       </h1>
-      <p class="text-muted-foreground mx-auto mb-8 max-w-3xl text-lg md:text-xl">
-        WhatsApp exports are hard to read. Upload your <code>_chat.txt</code> or <code>.zip</code> file
-        here and instantly browse your messages in the classic WhatsApp layout. Secure, private, and
-        entirely in your browser.
+      <p class="text-muted-foreground mx-auto mb-8 max-w-4xl text-lg md:text-xl">
+        Decode messy WhatsApp exports. Upload .txt or .zip files to view chats in the classic UI,
+        mirroring WhatsApp's light/dark themes and showing image/video previews (via .zip). Secure,
+        private, and <span class="underline underline-offset-5">runs entirely in your browser</span
+        >.
       </p>
-      {/* Optional: Add a secondary button or link if needed */}
     </section>
 
     {/* File Upload Area (Client-side React Component) */}
@@ -31,35 +34,9 @@ const attachmentNote = 'Attachment preview requires uploading the .zip export.'
     {/* Features Section */}
     <section class="mb-16 md:mb-24">
       <h2 class="mb-12 text-center text-3xl font-bold">Why Use This Reader?</h2>
-      <div class="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
-        {/* Feature 1 */}
-        <div class="bg-card flex flex-col items-center rounded-lg border p-6 shadow-sm">
-          <div class="bg-primary/10 mb-4 rounded-full p-3">
-            <UploadCloud className="text-primary h-8 w-8" />
-          </div>
-          <h3 class="mb-2 text-xl font-semibold">
-            Simple Upload (<code class="text-sm">.txt</code> or <code class="text-sm">.zip</code>)
-          </h3>
-          <p class="text-muted-foreground text-sm">
-            Just drag & drop or select your exported WhatsApp file – either the plain <code
-              >_chat.txt</code
-            > or the full <code>.zip</code> archive containing media. We'll handle the parsing.
-          </p>
-        </div>
-        {/* Feature 2 */}
-        <div class="bg-card flex flex-col items-center rounded-lg border p-6 shadow-sm">
-          <div class="bg-primary/10 mb-4 rounded-full p-3">
-            <MessageSquare className="text-primary h-8 w-8" />
-            {/* Changed Icon */}
-          </div>
-          <h3 class="mb-2 text-xl font-semibold">Authentic WhatsApp View</h3>
-          <p class="text-muted-foreground text-sm">
-            Rediscover your conversations. We meticulously render your messages, timestamps, sender
-            names, emojis, and attachments<sup class="text-primary">*</sup> in the classic WhatsApp interface
-            you know.
-          </p>
-        </div>
-        {/* Feature 3 */}
+      <div
+        class="grid grid-cols-1 gap-8 px-5 text-center md:grid-cols-2 md:px-10 lg:px-15 xl:px-20"
+      >
         <div class="bg-card flex flex-col items-center rounded-lg border p-6 shadow-sm">
           <div class="bg-primary/10 mb-4 rounded-full p-3">
             <Lock className="text-primary h-8 w-8" />
@@ -71,9 +48,46 @@ const attachmentNote = 'Attachment preview requires uploading the .zip export.'
             required.
           </p>
         </div>
+        <div class="bg-card flex flex-col items-center rounded-lg border p-6 shadow-sm">
+          <div class="bg-primary/10 mb-4 rounded-full p-3">
+            <SunMoon className="text-primary h-8 w-8" />
+          </div>
+          <h3 class="mb-2 text-xl font-semibold">Native Dark Theme</h3>
+          <p class="text-muted-foreground text-sm">
+            We've recreated the Whatsapp's native dark theme for comfortable reading, day or night.
+            Just click the toggle <SunMoon className="inline-block h-4 w-4 align-text-bottom" /> in the
+            top-right.
+          </p>
+        </div>
+
+        <div class="bg-card flex flex-col items-center rounded-lg border p-6 shadow-sm">
+          <div class="bg-primary/10 mb-4 rounded-full p-3">
+            <MessageSquare className="text-primary h-8 w-8" />
+          </div>
+          <h3 class="mb-2 text-xl font-semibold">Authentic WhatsApp View</h3>
+          <p class="text-muted-foreground text-sm">
+            Rediscover your conversations. We meticulously render your messages, timestamps, sender
+            names, emojis, and attachments<sup class="text-primary">*</sup> in the classic WhatsApp interface
+            you know.
+          </p>
+        </div>
+
+        <div class="bg-card flex flex-col items-center rounded-lg border p-6 shadow-sm">
+          <div class="bg-primary/10 mb-4 rounded-full p-3">
+            <UploadCloud className="text-primary h-8 w-8" />
+          </div>
+          <h3 class="mb-2 text-xl font-semibold">
+            Simple Upload (<code class="text-sm">.txt</code> or <code class="text-sm">.zip</code>)
+          </h3>
+          <p class="text-muted-foreground text-sm">
+            Just drag & drop or select your exported WhatsApp file – either the plain <code
+              >.txt</code
+            > or the full <code>.zip</code> archive containing media. We'll handle the parsing.
+          </p>
+        </div>
       </div>
-      {/* Optional footnote for attachments */}
-      <p class="text-muted-foreground mt-6 text-center text-xs">
+
+      <p class="text-muted-foreground mt-3 text-center text-xs">
         <sup class="text-primary">*</sup>{attachmentNote}
       </p>
     </section>
@@ -88,7 +102,7 @@ const attachmentNote = 'Attachment preview requires uploading the .zip export.'
             rel="noopener noreferrer"
             class="hover:text-primary inline-flex items-center text-sm transition-colors"
           >
-            <Github className="h-4 w-4 mr-1" /> View on GitHub
+            <Github className="h-4 w-4 mr-1" /> Built by Appaji
           </a>
         )
       }
