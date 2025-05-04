@@ -18,7 +18,7 @@ const USER_COLORS = [
   '#C0CA33', // Lime
   '#FDD835', // Yellow
   '#FB8C00', // Orange
-];
+]
 
 /**
  * Generates a consistent color for a username
@@ -27,12 +27,12 @@ const USER_COLORS = [
  */
 export function getUserColor(username: string): string {
   // Simple hash function to get a consistent index
-  let hash = 0;
+  let hash = 0
   for (let i = 0; i < username.length; i++) {
-    hash = username.charCodeAt(i) + ((hash << 5) - hash);
+    hash = username.charCodeAt(i) + ((hash << 5) - hash)
   }
-  
+
   // Use the hash to pick a color from our array
-  const index = Math.abs(hash) % USER_COLORS.length;
-  return USER_COLORS[index];
+  const index = Math.abs(hash) % USER_COLORS.length
+  return USER_COLORS[index]
 }

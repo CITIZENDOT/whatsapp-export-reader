@@ -3,8 +3,8 @@ import { cn } from '@/lib/utils'
 import JSZip from 'jszip'
 import { Loader2 } from 'lucide-react'
 import React, { useCallback, useEffect, useState } from 'react'
-import FileUploadArea from './FileUploadArea'
 import ChatView from './ChatView'
+import FileUploadArea from './FileUploadArea'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 
 // --- Updated Format Check ---
@@ -74,7 +74,7 @@ const ChatProcessor: React.FC = () => {
       // Find any .txt file in the zip
       let chatFile: JSZip.JSZipObject | null = null
       let chatFileName = ''
-      
+
       // First look for files directly in the root
       zip.forEach((relativePath, zipEntry) => {
         if (!zipEntry.dir && relativePath.toLowerCase().endsWith('.txt') && !chatFile) {
@@ -84,7 +84,7 @@ const ChatProcessor: React.FC = () => {
       })
 
       if (!chatFile) {
-        throw new Error("No text file found within the zip file.")
+        throw new Error('No text file found within the zip file.')
       }
 
       // Extract chat text

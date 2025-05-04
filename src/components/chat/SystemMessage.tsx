@@ -1,5 +1,5 @@
-import React from 'react'
 import type { SystemMessage as SystemMessageType } from '@/types/messages'
+import React from 'react'
 
 interface SystemMessageProps {
   message: SystemMessageType
@@ -7,8 +7,8 @@ interface SystemMessageProps {
 
 const SystemMessage: React.FC<SystemMessageProps> = ({ message }) => {
   return (
-    <div className="flex justify-center my-2">
-      <div className="bg-muted/70 rounded-lg px-4 py-1 text-xs text-center max-w-[80%]">
+    <div className="my-2 flex justify-center">
+      <div className="bg-muted/70 max-w-[80%] rounded-lg px-4 py-1 text-center text-xs">
         {message.text}
       </div>
     </div>

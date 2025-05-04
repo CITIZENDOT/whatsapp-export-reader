@@ -8,7 +8,7 @@ import { type ChatMessage } from '../types/messages'
 export function extractUsers(messages: ChatMessage[]): string[] {
   // Create a Set to store unique users
   const usersSet = new Set<string>()
-  
+
   // Iterate through messages and add senders to the set
   messages.forEach(message => {
     // Only consider messages with senders (text and attachment messages)
@@ -16,7 +16,7 @@ export function extractUsers(messages: ChatMessage[]): string[] {
       usersSet.add(message.sender.trim())
     }
   })
-  
+
   // Convert Set to Array and sort alphabetically
   return Array.from(usersSet).sort((a, b) => a.localeCompare(b))
 }
@@ -103,7 +103,8 @@ function parseBracketFormat(line: string): ChatMessage | null {
     content.includes('created this group') ||
     content.includes('added you') ||
     content.includes('Missed voice call') ||
-    content.includes('Voice call')
+    content.includes('Voice call') ||
+    content.includes('removed you')
   ) {
     return {
       type: 'system',
@@ -155,7 +156,8 @@ function parseDashFormat(line: string): ChatMessage | null {
       !sender.includes(':') &&
       (line.includes('Messages and calls are end-to-end encrypted') ||
         line.includes('created this group') ||
-        line.includes('added you')))
+        line.includes('added you') ||
+        content.includes('removed you')))
   ) {
     // For system messages, extract the full text after the timestamp
     const systemTextMatch = line.match(

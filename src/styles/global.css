@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -139,23 +139,23 @@
 }
 
 .markdown code {
-  @apply bg-black/10 dark:bg-white/10 px-1 py-0.5 rounded text-sm font-mono;
+  @apply rounded bg-black/10 px-1 py-0.5 font-mono text-sm dark:bg-white/10;
 }
 
 .markdown pre {
-  @apply bg-black/10 dark:bg-white/10 p-2 rounded my-1 text-sm font-mono overflow-x-auto;
+  @apply my-1 overflow-x-auto rounded bg-black/10 p-2 font-mono text-sm dark:bg-white/10;
 }
 
 .markdown blockquote {
-  @apply border-l-4 border-gray-300 dark:border-gray-600 pl-2 py-0.5 my-1 italic text-gray-600 dark:text-gray-300;
+  @apply my-1 border-l-4 border-gray-300 py-0.5 pl-2 text-gray-600 italic dark:border-gray-600 dark:text-gray-300;
 }
 
 .markdown ul {
-  @apply list-disc ml-5 my-1;
+  @apply my-1 ml-5 list-disc;
 }
 
 .markdown ol {
-  @apply list-decimal ml-5 my-1;
+  @apply my-1 ml-5 list-decimal;
 }
 
 .markdown li {
@@ -163,6 +163,9 @@
 }
 
 /* Make sure inline elements don't break the layout */
-.markdown p, .markdown strong, .markdown del, .markdown code {
+.markdown p,
+.markdown strong,
+.markdown del,
+.markdown code {
   @apply inline;
 }
