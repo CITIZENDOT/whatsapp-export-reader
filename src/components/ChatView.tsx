@@ -102,16 +102,16 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
 
   return (
     <Card className="animate-in fade-in w-full duration-500">
-      <CardHeader className="flex flex-row items-center justify-between gap-4">
-        <div>
+      <CardHeader className="grid grid-cols-2 gap-4">
+        <div className="col-span-2 md:col-span-1">
           <CardTitle>WhatsApp Chat</CardTitle>
           <CardDescription>
             Displaying {messages.length} messages with {users.length} participants.
             {attachmentCount > 0 && ` Found ${attachmentCount} attachment(s).`}
           </CardDescription>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex flex-col gap-1.5">
+        <div className="col-span-2 grid grid-cols-2 gap-1.5 md:col-span-1">
+          <div className="col-span-2 -mt-4 flex flex-col gap-1.5 md:col-span-1">
             <Label htmlFor="user-select" className="text-xs">
               View as
             </Label>
@@ -128,7 +128,12 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
               </SelectContent>
             </Select>
           </div>
-          <Button variant="outline" size="sm" onClick={onReset} className="flex-shrink-0">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onReset}
+            className="col-span-2 flex-shrink-0 md:col-span-1"
+          >
             <RefreshCcw className="mr-2 h-4 w-4" /> Load New Chat
           </Button>
         </div>
