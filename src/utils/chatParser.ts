@@ -40,7 +40,7 @@ export function parseWhatsAppChat(chatText: string): ChatMessage[] {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim()
-    if (!line) continue
+    // if (!line) continue
 
     // Check if this line starts a new message
     const isNewMessage = isBracketFormat
@@ -67,7 +67,8 @@ export function parseWhatsAppChat(chatText: string): ChatMessage[] {
       }
     } else if (currentMessage && currentMessage.type === 'text') {
       // This is a continuation of the previous message
-      currentMessageString += '\n' + line
+      // Don't trim here to preserve whitespace
+      currentMessageString += '\n' + lines[i]
     }
   }
 
@@ -181,6 +182,16 @@ function parseDashFormat(line: string): ChatMessage | null {
       sender,
       datetime,
       fileName,
+    }
+  }
+
+  if (content.endsWith('<This message was edited>')) {
+    return {
+      type: 'text',
+      sender,
+      datetime,
+      text: content.replace('<This message was edited>', '').trim(),
+      edited: true,
     }
   }
 

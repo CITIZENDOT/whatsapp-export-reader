@@ -1,13 +1,11 @@
 // src/components/ChatProcessor.tsx
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-import type { ChatMessage } from '@/types/messages'
-import { extractUsers, parseWhatsAppChat } from '@/utils/chatParser'
-import JSZip from 'jszip' // Import JSZip
-import { Loader2, RefreshCcw } from 'lucide-react'
+import JSZip from 'jszip'
+import { Loader2 } from 'lucide-react'
 import React, { useCallback, useEffect, useState } from 'react'
 import FileUploadArea from './FileUploadArea'
+import ChatView from './ChatView'
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 
 // --- Updated Format Check ---
 // Accepts any non-empty text for now. Zip validation happens separately.
@@ -21,72 +19,6 @@ interface ProcessedChatData {
   chatText: string
   // Mapping from original attachment filename to its Blob URL
   attachments: Record<string, string>
-}
-// ---
-
-// --- Updated ChatView ---
-interface ChatViewProps {
-  data: ProcessedChatData // Accepts the new data structure
-  onReset: () => void
-}
-const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
-  const [isLoading, setIsLoading] = useState(true)
-  const attachmentCount = Object.keys(data.attachments).length
-  const [messages, setMessages] = useState<ChatMessage[]>([])
-  const [users, setUsers] = useState<string[]>([])
-
-  useEffect(() => {
-    const strippedUnicode = data.chatText.replace(/\u200E/g, '').replace(/\u202F/g, ' ')
-    const messages = parseWhatsAppChat(strippedUnicode)
-    const users = extractUsers(messages)
-    setMessages(messages)
-    setUsers(users)
-    setIsLoading(false)
-  }, [data.chatText])
-
-  return (
-    <Card className="animate-in fade-in w-full duration-500">
-      <CardHeader className="flex flex-row items-center justify-between gap-4">
-        <div>
-          <CardTitle>Chat View</CardTitle>
-          <CardDescription>
-            Displaying processed chat text.
-            {attachmentCount > 0 && ` Found ${attachmentCount} attachment reference(s).`}
-          </CardDescription>
-        </div>
-        <Button variant="outline" size="sm" onClick={onReset} className="flex-shrink-0">
-          <RefreshCcw className="mr-2 h-4 w-4" /> Load New Chat
-        </Button>
-      </CardHeader>
-      <CardContent>
-        {/* Render Attachment List (Example) */}
-        {attachmentCount > 0 && (
-          <div className="bg-muted/50 mb-4 max-h-40 overflow-y-auto rounded-md border p-3">
-            <h4 className="mb-2 text-sm font-medium">Attachment References:</h4>
-            <ul className="list-disc space-y-1 pl-5 text-xs">
-              {Object.entries(data.attachments).map(([filename, blobUrl]) => (
-                <li key={filename}>
-                  {/* In a real implementation, you might link to the blobUrl */}
-                  {filename}
-                  {/* <a href={blobUrl} target="_blank" rel="noopener noreferrer">{filename}</a> */}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {/* Render Chat Text */}
-        {isLoading ? (
-          <div className="flex h-40 items-center justify-center">
-            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
-          </div>
-        ) : (
-          <pre className="bg-muted max-h-[60vh] overflow-auto rounded-md p-4 text-sm break-words whitespace-pre-wrap">
-            {data.chatText}
-          </pre>
-        )}
-      </CardContent>
-    </Card>
-  )
 }
 // ---
 
@@ -139,12 +71,24 @@ const ChatProcessor: React.FC = () => {
     try {
       await zip.loadAsync(file) // Load zip data
 
-      const chatFile = zip.file('_chat.txt') // Look for _chat.txt
+      // Find any .txt file in the zip
+      let chatFile: JSZip.JSZipObject | null = null
+      let chatFileName = ''
+      
+      // First look for files directly in the root
+      zip.forEach((relativePath, zipEntry) => {
+        if (!zipEntry.dir && relativePath.toLowerCase().endsWith('.txt') && !chatFile) {
+          chatFile = zipEntry
+          chatFileName = relativePath
+        }
+      })
+
       if (!chatFile) {
-        throw new Error("'_chat.txt' not found within the zip file.")
+        throw new Error("No text file found within the zip file.")
       }
 
       // Extract chat text
+      // @ts-ignore
       const chatText = await chatFile.async('string')
 
       // Extract attachments and create Blob URLs
@@ -153,7 +97,7 @@ const ChatProcessor: React.FC = () => {
 
       zip.forEach((relativePath, zipEntry) => {
         // Skip directories and the chat file itself
-        if (!zipEntry.dir && zipEntry.name !== '_chat.txt') {
+        if (!zipEntry.dir && relativePath !== chatFileName) {
           attachmentPromises.push(
             (async () => {
               try {
@@ -162,7 +106,6 @@ const ChatProcessor: React.FC = () => {
                 attachments[zipEntry.name] = blobUrl // Store filename -> blobUrl
               } catch (blobError) {
                 console.error(`Error processing attachment ${zipEntry.name}:`, blobError)
-                // Decide if you want to fail the whole process or just skip the attachment
               }
             })()
           )

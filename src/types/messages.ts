@@ -8,6 +8,7 @@ export interface Message {
 export interface TextMessage extends Message {
   type: 'text';
   text: string;
+  edited?: boolean;
 }
 
 // AttachmentMessage extends Message with attachment content

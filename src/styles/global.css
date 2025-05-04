@@ -118,3 +118,51 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Add Markdown styling */
+.markdown {
+  @apply text-sm;
+}
+
+.markdown p {
+  @apply inline;
+}
+
+.markdown strong {
+  @apply font-bold;
+}
+
+/* em is handled by the custom component to render as bold instead */
+
+.markdown del {
+  @apply line-through;
+}
+
+.markdown code {
+  @apply bg-black/10 dark:bg-white/10 px-1 py-0.5 rounded text-sm font-mono;
+}
+
+.markdown pre {
+  @apply bg-black/10 dark:bg-white/10 p-2 rounded my-1 text-sm font-mono overflow-x-auto;
+}
+
+.markdown blockquote {
+  @apply border-l-4 border-gray-300 dark:border-gray-600 pl-2 py-0.5 my-1 italic text-gray-600 dark:text-gray-300;
+}
+
+.markdown ul {
+  @apply list-disc ml-5 my-1;
+}
+
+.markdown ol {
+  @apply list-decimal ml-5 my-1;
+}
+
+.markdown li {
+  @apply my-0.5;
+}
+
+/* Make sure inline elements don't break the layout */
+.markdown p, .markdown strong, .markdown del, .markdown code {
+  @apply inline;
+}
