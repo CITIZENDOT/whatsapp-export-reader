@@ -102,21 +102,21 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
 
   return (
     <Card className="animate-in fade-in w-full duration-500">
-      <CardHeader className="grid grid-cols-2 gap-4">
+      <CardHeader className="grid grid-cols-2 gap-4 py-1">
         <div className="col-span-2 md:col-span-1">
           <CardTitle>WhatsApp Chat</CardTitle>
-          <CardDescription>
+          <CardDescription className='mt-1'>
             Displaying {messages.length} messages with {users.length} participants.
             {attachmentCount > 0 && ` Found ${attachmentCount} attachment(s).`}
           </CardDescription>
         </div>
         <div className="col-span-2 grid grid-cols-2 gap-1.5 md:col-span-1">
-          <div className="col-span-2 -mt-4 flex flex-col gap-1.5 md:col-span-1">
+          <div className="col-span-2 -mt-5 flex flex-col gap-1.5 md:col-span-1">
             <Label htmlFor="user-select" className="text-xs">
               View as
             </Label>
             <Select value={primaryUser} onValueChange={handleUserChange}>
-              <SelectTrigger id="user-select" className="w-[180px]">
+              <SelectTrigger id="user-select" className="w-full">
                 <SelectValue placeholder="Select user" />
               </SelectTrigger>
               <SelectContent>
@@ -138,7 +138,7 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
           </Button>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className='px-3 md:px-6'>
         {isLoading ? (
           <div className="flex h-40 items-center justify-center">
             <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
@@ -147,7 +147,7 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
           <div className="relative h-[70vh] overflow-y-auto rounded-lg border bg-[#EFEAE2] dark:bg-[#0B141A]">
             {/* Background pattern - use a pseudo-element with background-attachment: fixed */}
 
-            <div className="relative flex flex-col space-y-4 p-4">
+            <div className="relative flex flex-col space-y-4 p-2 md:p-4">
               <div
                 className="pointer-events-none absolute inset-0 z-0 dark:invert-75"
                 style={{
