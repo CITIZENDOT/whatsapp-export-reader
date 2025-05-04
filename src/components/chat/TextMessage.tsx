@@ -39,11 +39,11 @@ const TextMessage: React.FC<TextMessageProps> = ({
     text: ({ children }) => <span style={{ whiteSpace: 'pre-wrap' }}>{children}</span>,
     // Add link component to handle long URLs
     a: ({ node, href, children }) => (
-      <a 
-        href={href} 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="break-all text-[#0063CB] dark:text-[#53BDEB] underline"
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="break-all text-[#0063CB] underline dark:text-[#53BDEB]"
       >
         {children}
       </a>
@@ -71,7 +71,7 @@ const TextMessage: React.FC<TextMessageProps> = ({
         {isLongMessage ? (
           <div className="flex flex-col">
             <div className="break-words text-black dark:text-white">
-              <div className="markdown whitespace-pre-wrap break-words overflow-hidden">
+              <div className="markdown overflow-hidden break-words whitespace-pre-wrap">
                 <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
                   {processedText}
                 </ReactMarkdown>
@@ -88,7 +88,7 @@ const TextMessage: React.FC<TextMessageProps> = ({
           /* For short messages, use flex-row layout with items-end */
           <div className={cn('flex items-end', isCurrentUser ? 'justify-end' : 'justify-start')}>
             <div className="break-words text-black dark:text-white">
-              <div className="markdown whitespace-pre-wrap break-words overflow-hidden">
+              <div className="markdown overflow-hidden break-words whitespace-pre-wrap">
                 <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
                   {processedText}
                 </ReactMarkdown>

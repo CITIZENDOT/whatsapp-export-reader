@@ -14,10 +14,8 @@ import { Loader2, RefreshCcw } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import MessageGroup from './chat/MessageGroup'
 
-// Define the structure for processed data
 interface ProcessedChatData {
   chatText: string
-  // Mapping from original attachment filename to its Blob URL
   attachments: Record<string, string>
 }
 
@@ -41,7 +39,6 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
     setMessages(parsedMessages)
     setUsers(chatUsers)
 
-    // Set default primary user (first user in the list)
     if (chatUsers.length > 0 && !primaryUser) {
       setPrimaryUser(chatUsers[0])
     }
@@ -53,7 +50,6 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
     setPrimaryUser(value)
   }
 
-  // Format date for display
   const formatMessageTime = (date: Date) => {
     return new Intl.DateTimeFormat('en-US', {
       hour: 'numeric',
@@ -62,7 +58,6 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
     }).format(date)
   }
 
-  // Format date for message groups
   const formatMessageDay = (date: Date) => {
     return new Intl.DateTimeFormat('en-US', {
       weekday: 'long',
@@ -105,7 +100,7 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
       <CardHeader className="grid grid-cols-2 gap-4 py-1">
         <div className="col-span-2 md:col-span-1">
           <CardTitle>WhatsApp Chat</CardTitle>
-          <CardDescription className='mt-1'>
+          <CardDescription className="mt-1">
             Displaying {messages.length} messages with {users.length} participants.
             {attachmentCount > 0 && ` Found ${attachmentCount} attachment(s).`}
           </CardDescription>
@@ -138,22 +133,19 @@ const ChatView: React.FC<ChatViewProps> = ({ data, onReset }) => {
           </Button>
         </div>
       </CardHeader>
-      <CardContent className='px-3 md:px-6'>
+      <CardContent className="px-3 md:px-6">
         {isLoading ? (
           <div className="flex h-40 items-center justify-center">
             <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
           </div>
         ) : (
           <div className="relative h-[70vh] overflow-y-auto rounded-lg border bg-[#EFEAE2] dark:bg-[#0B141A]">
-            {/* Background pattern - use a pseudo-element with background-attachment: fixed */}
-
             <div className="relative flex flex-col space-y-4 p-2 md:p-4">
               <div
                 className="pointer-events-none absolute inset-0 z-0 dark:invert-75"
                 style={{
                   backgroundImage: 'url(/chat-bg.png)',
                   backgroundRepeat: 'repeat',
-                  // backgroundSize: '210px auto',
                   backgroundAttachment: 'fixed',
                 }}
               />

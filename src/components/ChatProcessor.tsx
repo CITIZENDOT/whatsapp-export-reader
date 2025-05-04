@@ -168,36 +168,32 @@ const ChatProcessor: React.FC = () => {
     if (fileExtension === 'txt') {
       processTextFile(file)
     } else if (fileExtension === 'zip') {
-      processZipFile(file) // Call async zip processor
+      processZipFile(file)
     } else {
-      // Should ideally be caught by FileUploadArea, but good fallback
       clearData()
       setProcessingError('Unsupported file type. Use .txt or .zip.')
       setIsLoading(false)
     }
-  }, []) // Dependencies needed? only uses state setters
+  }, [])
 
   // --- Handler for Text Paste ---
   const handleTextPasted = useCallback((text: string) => {
     clearData()
     setIsLoading(true)
-    // Simulate async slightly if needed
-    setTimeout(() => {
-      if (checkTextFormat(text)) {
-        // Set data with empty attachments for pasted text
-        setProcessedData({ chatText: text, attachments: {} })
-        setProcessingError(null)
-      } else {
-        setProcessingError('Pasted text appears empty or invalid.')
-        setProcessedData(null)
-      }
-      setIsLoading(false)
-    }, 10)
+    if (checkTextFormat(text)) {
+      // Set data with empty attachments for pasted text
+      setProcessedData({ chatText: text, attachments: {} })
+      setProcessingError(null)
+    } else {
+      setProcessingError('Pasted text appears empty or invalid.')
+      setProcessedData(null)
+    }
+    setIsLoading(false)
   }, [])
 
   // --- Function to Reset State ---
   const resetView = () => {
-    clearData() // Use the new clearData function
+    clearData()
     setIsLoading(false)
   }
 
@@ -224,7 +220,6 @@ const ChatProcessor: React.FC = () => {
       )}
 
       {!isLoading && showChatView && processedData && (
-        // Pass the whole processedData object
         <ChatView data={processedData} onReset={resetView} />
       )}
 

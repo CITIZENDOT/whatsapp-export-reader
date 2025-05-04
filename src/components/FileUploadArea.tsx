@@ -92,7 +92,7 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPastedText(event.target.value)
     if (event.target.value.trim()) {
-      setTextError(null) // Clear error when user types valid text
+      setTextError(null)
     }
   }
 
@@ -130,7 +130,7 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
 
   // --- Mode Switching Logic ---
   const switchToPasteMode = (e: React.MouseEvent) => {
-    e.preventDefault() // Prevent potential navigation if used in an anchor
+    e.preventDefault()
     setInputMode('paste')
     setSelectedFile(null)
     setFileError(null)
@@ -150,15 +150,14 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
     setFileError(null)
   }
 
-  // Determine current overall error (preferring file error if in upload mode)
-  const currentError = inputMode === 'upload' ? fileError : textError
-
   const displayError = processingError || (inputMode === 'upload' ? fileError : textError)
 
   return (
     <Card className="mx-auto w-full max-w-lg">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">{inputMode === 'upload' ? 'Upload' : 'Paste'} Your Chat Data</CardTitle>
+        <CardTitle className="text-2xl">
+          {inputMode === 'upload' ? 'Upload' : 'Paste'} Your Chat Data
+        </CardTitle>
         <CardDescription>
           {inputMode === 'upload' ? (
             <>
@@ -170,8 +169,7 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
               >
                 paste the text content
               </Button>
-              .
-              You can also {' '}
+              . You can also{' '}
               <Button
                 variant="link"
                 className="inline h-auto p-0 text-base"
@@ -191,9 +189,7 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
               >
                 upload a file instead
               </Button>
-              .
-
-              You can also {' '}
+              . You can also{' '}
               <Button
                 variant="link"
                 className="inline h-auto p-0 text-base"
@@ -282,7 +278,6 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
           {inputMode === 'paste' && (
             <div className="flex flex-col gap-3">
               {' '}
-              {/* Adjusted gap */}
               {/* Label for accessibility */}
               <Label htmlFor="paste-area" className="sr-only">
                 Paste Chat Text
@@ -296,11 +291,11 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
                 rows={10}
                 className={cn(textError ? 'border-destructive focus-visible:ring-destructive' : '')} // Error styling
                 aria-label="Chat text paste area"
-                aria-invalid={!!displayError} // Use displayError
+                aria-invalid={!!displayError}
                 aria-describedby={displayError ? 'text-error-message' : undefined}
               />
               {/* Error message display */}
-              {displayError && ( // Use displayError
+              {displayError && (
                 <p
                   id="text-error-message"
                   className="text-destructive flex items-center gap-1 text-sm"
@@ -311,7 +306,6 @@ const FileUploadArea: React.FC<FileUploadAreaProps> = ({
               {/* Submit Button */}
               <Button onClick={handleSubmitPaste} disabled={!pastedText.trim()} className="w-full">
                 {' '}
-                {/* Make button full width */}
                 <ClipboardPaste className="mr-2 h-4 w-4" /> Process Pasted Text
               </Button>
             </div>
